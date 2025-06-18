@@ -6,6 +6,8 @@ import image from "./assets/logo.jpg";
 import "bootstrap/dist/css/bootstrap.css";
 import axios from "axios";
 import RecipeCard from "./components/RecipeCard";
+import Button from "react-bootstrap/Button";
+import IngredientsModal from "./components/IngredientsModal";
 
 function App() {
   const [meals, setMeals] = useState([]);
@@ -42,7 +44,8 @@ function App() {
             <div className="col-6 d-flex flex-column gap-2">
               <div className="d-flex gap-4">
                 <input
-                  className="w-100 rounded-pill bg-white text-dark px-3"
+                  className="w-100 rounded-pill bg-white text-dark text-center `px-3"
+                  placeholder="Type here.."
                   type="text"
                   ref={searchRef}
                   style={{ height: "40px" }}
@@ -58,11 +61,7 @@ function App() {
           </div>
           <div className="row">
             {meals.map((m) => {
-              return (
-                <>
-                  <RecipeCard meal={m} />
-                </>
-              );
+              return <RecipeCard key={m.idMeal} meal={m} />;
             })}
           </div>
         </div>

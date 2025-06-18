@@ -1,22 +1,23 @@
-import React from "react";
-import Card from "react-bootstrap/Card";
-import Button from "react-bootstrap/Button";
+import React, { useState } from "react";
+import { Card, Button } from "react-bootstrap";
+import IngredientsModal from "./IngredientsModal";
 
 const RecipeCard = ({ meal }) => {
+  const [showModal, setShowModal] = useState(false);
+  const handleOnShow = () => {
+    setShowModal(true);
+  };
+  const handleOnClose = () => setShowModal(false);
+
+  // Collect ingredients dynamically
+  const ingredients = [];
+  for (let i = 1; i <= 20; i++) {
+    const ingredient = meal[`strIngredient${i}`];
+    if (ingredient) ingredients.push(ingredient);
+  }
+
   return (
     <>
-      {/* <div className="col-4">
-        <div>
-          <img
-            src={meal.strMealThumb}
-            alt=""
-            style={{ width: "100%", height: "auto" }}
-          />
-        </div>
-        <div>Name: {meal.strMeal}</div>
-        <div>Instructions: {meal.strInstructions}</div>
-        <div>Ingredients: {meal.strIngredient1}</div>
-      </div> */}
       <div className="col-3 mb-4">
         <Card className="p-4">
           <Card.Img variant="top" src={meal.strMealThumb} />
@@ -27,10 +28,18 @@ const RecipeCard = ({ meal }) => {
                 <b>Cuisine:</b>&nbsp;{meal.strArea}
               </span>
             </Card.Text>
-            <Button variant="primary">See Ingredients</Button>
+            <Button variant="dark" onClick={handleOnShow}>
+              See Ingredients
+            </Button>
           </Card.Body>
         </Card>
       </div>
+
+      <IngredientsModal
+        show={showModal}
+        onClose={handleOnClose}
+        ingredients={ingredients}
+      />
     </>
   );
 };
