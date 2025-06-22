@@ -6,8 +6,6 @@ import image from "./assets/logo.jpg";
 import "bootstrap/dist/css/bootstrap.css";
 import axios from "axios";
 import RecipeCard from "./components/RecipeCard";
-import Button from "react-bootstrap/Button";
-import IngredientsModal from "./components/IngredientsModal";
 
 function App() {
   const [meals, setMeals] = useState([]);
@@ -41,7 +39,7 @@ function App() {
             </div>
           </div>
           <div className="row justify-content-center">
-            <div className="col-6 d-flex flex-column gap-2">
+            <div className="col-12 col-md-8 col-lg-6 d-flex flex-column gap-2">
               <div className="d-flex gap-4">
                 <input
                   className="w-100 rounded-pill bg-white text-dark text-center `px-3"
