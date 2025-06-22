@@ -19,9 +19,9 @@ const RecipeCard = ({ meal }) => {
   return (
     <>
       <div className="col-3 mb-4">
-        <Card className="p-4">
+        <Card className="p-4 h-100">
           <Card.Img variant="top" src={meal.strMealThumb} />
-          <Card.Body>
+          <Card.Body className="px-0 pb-0">
             <Card.Title>{meal.strMeal}</Card.Title>
             <Card.Text>
               <span className="d-block">
