@@ -9,20 +9,31 @@ import RecipeCard from "./components/RecipeCard";
 
 function App() {
   const [meals, setMeals] = useState([]);
+  const [message, setMessage] = useState("");
+  const [isLoading, setLoading] = useState(false);
+
   const searchRef = useRef(null);
 
   // Using API to retrieve data
   const generateRecipe = async () => {
     let searchValue = searchRef.current.value;
+    setLoading(true);
     let response = await axios.get(
       "https://www.themealdb.com/api/json/v1/1/search.php?s=" + searchValue
     );
+
+    setLoading(false);
     console.log(response);
-    setMeals(response.data.meals);
+    setMeals(response.data.meals || []);
+    setMessage(response.data.meals ? "Recipes Found" : "Recipe not found!!!");
   };
 
   const handleOnChange = (e) => {
-    setApiData(e.target.value);
+    console.log(e.key);
+
+    if (e.key === "Enter") {
+      generateRecipe();
+    }
   };
 
   return (
@@ -47,6 +58,7 @@ function App() {
                   type="text"
                   ref={searchRef}
                   style={{ height: "40px" }}
+                  onKeyUp={handleOnChange}
                 />
               </div>
               <button
@@ -55,6 +67,9 @@ function App() {
               >
                 Search Recipe
               </button>
+              <div>
+                <h4>{isLoading ? "Loading..." : message}</h4>
+              </div>
             </div>
           </div>
           <div className="row">
