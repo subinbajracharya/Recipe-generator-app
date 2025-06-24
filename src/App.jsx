@@ -27,7 +27,9 @@ function App() {
       setLoading(false);
       console.log(response);
       setMeals(response.data.meals || []);
-      setMessage(response.data.meals ? "Recipes Found" : "");
+      setMessage(
+        response.data.meals ? `${response.data.meals.length} Recipes Found` : ""
+      );
     }
   };
 
@@ -75,8 +77,8 @@ function App() {
                   <div className="spinner-border text-light" role="status">
                     <span className="visually-hidden">Loading...</span>
                   </div>
-                ) : message === "Recipes Found" ? (
-                  <h4 className="text-success">{message}</h4>
+                ) : meals.length > 0 ? (
+                  <h5 className="text-success">{message}</h5>
                 ) : hasSearched && meals.length === 0 ? (
                   <div className="text-danger">
                     <h5>
