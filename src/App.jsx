@@ -11,21 +11,24 @@ function App() {
   const [meals, setMeals] = useState([]);
   const [message, setMessage] = useState("");
   const [isLoading, setLoading] = useState(false);
+  const [hasSearched, setHasSearched] = useState(false);
 
   const searchRef = useRef(null);
 
   // Using API to retrieve data
   const generateRecipe = async () => {
     let searchValue = searchRef.current.value;
-    setLoading(true);
-    let response = await axios.get(
-      "https://www.themealdb.com/api/json/v1/1/search.php?s=" + searchValue
-    );
-
-    setLoading(false);
-    console.log(response);
-    setMeals(response.data.meals || []);
-    setMessage(response.data.meals ? "Recipes Found" : "Recipe not found!!!");
+    if (searchValue && searchValue != "") {
+      setLoading(true);
+      setHasSearched(true);
+      let response = await axios.get(
+        "https://www.themealdb.com/api/json/v1/1/search.php?s=" + searchValue
+      );
+      setLoading(false);
+      console.log(response);
+      setMeals(response.data.meals || []);
+      setMessage(response.data.meals ? "Recipes Found" : "");
+    }
   };
 
   const handleOnChange = (e) => {
@@ -53,7 +56,7 @@ function App() {
             <div className="col-12 col-md-8 col-lg-6 d-flex flex-column gap-2">
               <div className="d-flex gap-4">
                 <input
-                  className="w-100 rounded-pill bg-white text-dark text-center `px-3"
+                  className="w-100 rounded-pill bg-white text-dark text-center px-3"
                   placeholder="Type here.."
                   type="text"
                   ref={searchRef}
@@ -62,13 +65,25 @@ function App() {
                 />
               </div>
               <button
-                className="rounded-pill btn btn-success"
+                className="rounded-pill btn btn-success mb-2"
                 onClick={generateRecipe}
               >
                 Search Recipe
               </button>
-              <div>
-                <h4>{isLoading ? "Loading..." : message}</h4>
+              <div className="text-center">
+                {isLoading ? (
+                  <div className="spinner-border text-light" role="status">
+                    <span className="visually-hidden">Loading...</span>
+                  </div>
+                ) : message === "Recipes Found" ? (
+                  <h4 className="text-success">{message}</h4>
+                ) : hasSearched && meals.length === 0 ? (
+                  <div className="text-danger">
+                    <h5>
+                      No recipes match your search. Try a different ingredient!
+                    </h5>
+                  </div>
+                ) : null}
               </div>
             </div>
           </div>
